@@ -1,1 +1,51 @@
 
+#  in this Scenario we used 2 VM
+##  	VM_1 for using as web service (apache,nginx)
+* 	so we  use apache 	
+*            yum install httpd -y
+*            systemctl start httpd
+*            systemctl enable httpd --now
+ 	###  firewall
+* 	        firewall-cmd --add-service=http --permanent
+* 	     	firewall-cmd --reload
+###  Disable SElinux
+* 		setenforce 0
+###  you can check it 
+* 	        getenforce
+### add repo to /var/www/html	
+1. BaseOS        
+1. AppStream
+*    ###  you can copy this directory from iso after mount   
+*    ### select iso and right click mount
+*    ### copy this to VM_1 in path `/var/www/html` i use WinSCP program  [click her to download](https://www.google.com/url?sa=t&rct=j&q=&esrc=s&source=web&cd=&cad=rja&uact=8&ved=2ahUKEwip3-3lufP5AhWCHOwKHQQmDioQFnoECAMQAQ&url=https%3A%2F%2Fwinscp.net%2Feng%2Fdownload.php&usg=AOvVaw1n5ybI7MQWbkqvaznB15lT)
+
+## in VM_2 :
+Here where it can be written playbook 
+create local.yml
+vi local.yml 
+
+###         [localrepo-base]
+###         name=RockyLinux Base
+###         baseurl=http://VM_1_ip/BaseOS/
+###         enabled=1
+###         [localrepo-appstream]
+###         name=RockyLinux Base
+###         baseurl=http://VM_1_ip/AppStream/
+###         gpgcheck=0
+###         enabled=1 
+
+***
+
+vim localrepo.yml
+### - name: Move existing repos to /tmp.
+### command: /etc/yum.repos.d/*.repo /tmp/
+### - name: Copy file from one directory to other 
+### copy:
+### src: local.repo
+### dest:  /etc/yum.repos.d/localrepo.repo
+### remote_src: yes
+### - name: clear dnf cache
+### command: dnf clean all
+
+After that you can run payload
+ansible-playbook repo.yml
