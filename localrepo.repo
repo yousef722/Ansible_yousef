@@ -1,0 +1,9 @@
+[localrepo-base]
+name=RockyLinux Base
+baseurl=http://VM_1_ip/BaseOS/
+enabled=1
+[localrepo-appstream]
+name=RockyLinux Base
+baseurl=http://VM_1_ip/AppStream/
+gpgcheck=0
+enabled=1
