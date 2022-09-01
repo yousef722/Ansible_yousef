@@ -13,5 +13,8 @@ Here is an explanation of how this is done by ansible
 
 in this article explained that rum some web server to provide and share repo directory here  used apache 
 we have tow VMs 
+
 VM_1 : for apache
+
+
 VM_2 : for ansible Manager playbook.
